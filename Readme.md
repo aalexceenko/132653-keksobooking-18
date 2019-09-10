@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Анастасия Алексеенко](https://up.htmlacademy.ru/javascript/18/user/132653).
-* Наставник: `Неизвестно`.
+* Наставник: [Олег Скляров](https://htmlacademy.ru/profile/id926687).
 
 ---
 
