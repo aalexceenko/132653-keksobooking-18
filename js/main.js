@@ -14,9 +14,11 @@ var X_MAX = 900;
 var X_MIN = 300;
 var Y_MAX = 630;
 var Y_MIN = 130;
+var PIN_WIDTH = 50;
+var PIN_HEIGHT = 70;
 
-var DESCRIPTIONS = ['Сдам жилье 1'];
-var TITLES = ['Заголовок'];
+var DESCRIPTIONS = ['Сдам жилье недорого', 'Сдам жилье без детей', 'Сдам жилье без животных'];
+var TITLES = ['Лучшая локация', 'Историческое место', 'Лучшее в этом городе'];
 
 
 var getRandomInteger = function (min, max) {
@@ -32,14 +34,13 @@ var getRandomFeatures = function (features) {
   var countFeatures = getRandomInteger(1, restFeatures.length);
   var result = [];
   for (var i = 0; i < countFeatures; ++i) {
-    var selectedElement = restFeatures.splice(getRandomInteger(0, restFeatures.length - 1), 1);
-    result.push(selectedElement);
+    result.push(restFeatures.splice(getRandomInteger(0, restFeatures.length - 1), 1));
   }
 
   return result;
 };
 
-var generateCards = function (n) {
+var generateCard = function (n) {
   var location = {
     x: getRandomInteger(X_MIN, X_MAX),
     y: getRandomInteger(Y_MIN, Y_MAX),
@@ -67,6 +68,16 @@ var generateCards = function (n) {
   };
 };
 
+var createPinElement = function (card) {
+  var pinElement = document.querySelector('#pin').content.cloneNode(true);
+
+  pinElement.querySelector('.map__pin').style = 'left: ' + (card.location.x - PIN_WIDTH / 2) + 'px; top: ' + (card.location.y - PIN_HEIGHT) + 'px';
+  var pinImageElement = pinElement.querySelector('.map__pin img');
+  pinImageElement.src = card.author.avatar;
+  pinImageElement.alt = card.offer.title;
+
+  return pinElement;
+};
 
 document.querySelector('.map').classList.remove('map--faded');
 
@@ -74,22 +85,9 @@ document.querySelector('.map').classList.remove('map--faded');
 var mapPinsElement = document.querySelector('.map__pins');
 
 for (var i = 0; i < COUNT_CARDS; i++) {
-  var card = generateCards(i + 1);
+  var card = generateCard(i + 1);
 
-  var pinElementTemplate = document.querySelector('#pin').content;
-
-  var pinElement = pinElementTemplate.cloneNode(true);
-  var PIN_WIDTH = 50;
-  var PIN_HEIGHT = 70;
-
-  pinElement.querySelector('.map__pin').style = 'left: ' + (card.location.x - PIN_WIDTH / 2) + 'px; top: ' + (card.location.y - PIN_HEIGHT) + 'px';
-
-  var pinImageElement = pinElement.querySelector('.map__pin img');
-  pinImageElement.src = card.author.avatar;
-  pinImageElement.alt = card.offer.title;
-
-
-  mapPinsElement.appendChild(pinElement);
+  mapPinsElement.appendChild(createPinElement(card));
 }
 
 
