@@ -79,6 +79,57 @@ var createPinElement = function (card) {
   return pinElement;
 };
 
+var createListElement = function (card) {
+  // var listElement = document.querySelector('#card').content.cloneNode(true);
+  var listElement = document.querySelector('#card').content.querySelector('.map__card').cloneNode(true);
+
+  listElement.src = card.author.avatar;
+  listElement.querySelector('.popup__title').textContent = card.offer.title;
+  listElement.querySelector('.popup__text--address').textContent = card.offer.address;
+  listElement.querySelector('.popup__text--price').textContent = card.offer.price + ' ₽/ночь';
+
+  if ((card.offer.rooms === 1) || (card.offer.guests === 1)) {
+    listElement.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' комната для ' + card.offer.guests + ' гостя';
+  } else if (card.offer.rooms >= 5) {
+    listElement.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' комнат для ' + card.offer.guests + ' гостей';
+  } else {
+    listElement.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' комнаты для ' + card.offer.guests + ' гостей';
+  }
+
+  listElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + ', выезд до' + card.offer.checkout;
+
+  listElement.querySelector('.popup__description').textContent = card.offer.description;
+
+  var features = listElement.querySelector('.popup__features');
+  var feature = listElement.querySelector('.popup__feature');
+
+  while (features.firstChild) {
+    features.removeChild(features.firstChild);
+  }
+
+  for (var i = 0; i < card.offer.photos.length; i++) {
+    feature = document.createElement('li');
+    feature.classList.add('popup__feature');
+    feature.classList.add('popup__feature--' + card.offer.features[i]);
+    features.appendChild(feature);
+  }
+
+  var photos = listElement.querySelector('.popup__photos');
+  var photo = listElement.querySelector('.popup__photo');
+  photo.src = card.offer.photos[0];
+  for (i = 0; i <= card.offer.photos.length - 2; i++) {
+    var photoNew = document.createElement('img');
+    photoNew.classList.add('popup__photo');
+    photoNew.width = '45';
+    photoNew.height = '40';
+    photoNew.alt = 'Фотография жилья';
+    photoNew.src = card.offer.photos[i + 1];
+    photos.appendChild(photoNew);
+  }
+
+  return listElement;
+};
+
 document.querySelector('.map').classList.remove('map--faded');
 
 
@@ -88,4 +139,5 @@ for (var i = 0; i < COUNT_CARDS; i++) {
   var card = generateCard(i + 1);
 
   mapPinsElement.appendChild(createPinElement(card));
+  mapPinsElement.appendChild(createListElement(card));
 }
