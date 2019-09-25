@@ -107,7 +107,7 @@ var createListElement = function (card) {
     features.removeChild(features.firstChild);
   }
 
-  for (var i = 0; i < card.offer.photos.length; i++) {
+  for (var i = 0; i < card.offer.features.length; i++) {
     feature = document.createElement('li');
     feature.classList.add('popup__feature');
     feature.classList.add('popup__feature--' + card.offer.features[i]);
