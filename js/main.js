@@ -139,5 +139,10 @@ for (var i = 0; i < COUNT_CARDS; i++) {
   var card = generateCard(i + 1);
 
   mapPinsElement.appendChild(createPinElement(card));
+
   mapPinsElement.appendChild(createListElement(card));
 }
+
+}
+
+
