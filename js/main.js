@@ -79,8 +79,8 @@ var createPinElement = function (card) {
   return pinElement;
 };
 
-var createListElement = function (card) {
-  // var listElement = document.querySelector('#card').content.cloneNode(true);
+var createAdCardDetails = function (card) {
+
   var listElement = document.querySelector('#card').content.querySelector('.map__card').cloneNode(true);
 
   listElement.src = card.author.avatar;
@@ -137,7 +137,8 @@ var mapPinsElement = document.querySelector('.map__pins');
 
 for (var i = 0; i < COUNT_CARDS; i++) {
   var card = generateCard(i + 1);
-
   mapPinsElement.appendChild(createPinElement(card));
-  mapPinsElement.appendChild(createListElement(card));
 }
+
+mapPinsElement.appendChild(createAdCardDetails(card));
+
