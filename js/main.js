@@ -79,29 +79,29 @@ var createPinElement = function (card) {
   return pinElement;
 };
 
-var createAdCardDetails = function (card) {
+var createMapCardPopupElement = function (card) {
 
-  var listElement = document.querySelector('#card').content.querySelector('.map__card').cloneNode(true);
+  var mapCardPopupElement = document.querySelector('#card').content.querySelector('.map__card').cloneNode(true);
 
-  listElement.src = card.author.avatar;
-  listElement.querySelector('.popup__title').textContent = card.offer.title;
-  listElement.querySelector('.popup__text--address').textContent = card.offer.address;
-  listElement.querySelector('.popup__text--price').textContent = card.offer.price + ' ₽/ночь';
+  mapCardPopupElement.src = card.author.avatar;
+  mapCardPopupElement.querySelector('.popup__title').textContent = card.offer.title;
+  mapCardPopupElement.querySelector('.popup__text--address').textContent = card.offer.address;
+  mapCardPopupElement.querySelector('.popup__text--price').textContent = card.offer.price + ' ₽/ночь';
 
   if ((card.offer.rooms === 1) || (card.offer.guests === 1)) {
-    listElement.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' комната для ' + card.offer.guests + ' гостя';
+    mapCardPopupElement.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' комната для ' + card.offer.guests + ' гостя';
   } else if (card.offer.rooms >= 5) {
-    listElement.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' комнат для ' + card.offer.guests + ' гостей';
+    mapCardPopupElement.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' комнат для ' + card.offer.guests + ' гостей';
   } else {
-    listElement.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' комнаты для ' + card.offer.guests + ' гостей';
+    mapCardPopupElement.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' комнаты для ' + card.offer.guests + ' гостей';
   }
 
-  listElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + ', выезд до' + card.offer.checkout;
+  mapCardPopupElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + ', выезд до' + card.offer.checkout;
 
-  listElement.querySelector('.popup__description').textContent = card.offer.description;
+  mapCardPopupElement.querySelector('.popup__description').textContent = card.offer.description;
 
-  var features = listElement.querySelector('.popup__features');
-  var feature = listElement.querySelector('.popup__feature');
+  var features = mapCardPopupElement.querySelector('.popup__features');
+  var feature = mapCardPopupElement.querySelector('.popup__feature');
 
   while (features.firstChild) {
     features.removeChild(features.firstChild);
@@ -114,9 +114,10 @@ var createAdCardDetails = function (card) {
     features.appendChild(feature);
   }
 
-  var photos = listElement.querySelector('.popup__photos');
-  var photo = listElement.querySelector('.popup__photo');
+  var photos = mapCardPopupElement.querySelector('.popup__photos');
+  var photo = mapCardPopupElement.querySelector('.popup__photo');
   photo.src = card.offer.photos[0];
+
   for (i = 0; i <= card.offer.photos.length - 2; i++) {
     var photoNew = document.createElement('img');
     photoNew.classList.add('popup__photo');
@@ -127,7 +128,7 @@ var createAdCardDetails = function (card) {
     photos.appendChild(photoNew);
   }
 
-  return listElement;
+  return mapCardPopupElement;
 };
 
 document.querySelector('.map').classList.remove('map--faded');
@@ -138,7 +139,9 @@ var mapPinsElement = document.querySelector('.map__pins');
 for (var i = 0; i < COUNT_CARDS; i++) {
   var card = generateCard(i + 1);
   mapPinsElement.appendChild(createPinElement(card));
+  document.querySelector('.map').insertBefore(createMapCardPopupElement(card), document.querySelector('.map__filters-container'));
+
 }
 
-mapPinsElement.appendChild(createAdCardDetails(card));
+// document.querySelector('.map').insertBefore(createMapCardPopupElement(card), document.querySelector('.map__filters-container'));
 
