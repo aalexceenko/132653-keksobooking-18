@@ -132,17 +132,124 @@ var createMapCardPopupElement = function (card) {
   return mapCardPopupElement;
 };
 
-document.querySelector('.map').classList.remove('map--faded');
+var pinHandle = document.querySelector('.map__pin--main');
+pinHandle.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
 
+  var startCordinate = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
 
-var mapPinsElement = document.querySelector('.map__pins');
+  var MouseMoveHandler = function (moveEvt) {
+    moveEvt.preventDefault();
 
-for (var i = 0; i < COUNT_CARDS; i++) {
-  var card = generateCard(i + 1);
-  mapPinsElement.appendChild(createPinElement(card));
-  if (i === 0) {
-    document.querySelector('.map').insertBefore(createMapCardPopupElement(card), document.querySelector('.map__filters-container'));
+    var shift = {
+      x: startCordinate.x - moveEvt.clientX,
+      y: startCordinate.y - moveEvt.clientY
+    };
+
+    startCordinate = {
+      x: moveEvt.clientX,
+      y: moveEvt.clientY
+    };
+
+    pinHandle.style.top = (pinHandle.offsetTop - shift.y) + 'px';
+    pinHandle.style.left = (pinHandle.offsetLeft - shift.x) + 'px';
+  };
+
+  var MouseUpHandler = function (upEvt) {
+    upEvt.preventDefault();
+
+    document.removeEventListener('mousemove', MouseMoveHandler);
+    document.removeEventListener('mouseup', MouseUpHandler);
+  };
+
+  document.addEventListener('mousemove', MouseMoveHandler);
+  document.addEventListener('mouseup', MouseUpHandler);
+});
+
+document.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === 13) {
+    document.querySelector('.map').classList.remove('map--faded');
+    isPinned++;
+    if (isPinned === 1) {
+      renderPins();
+    }
   }
-}
+
+  // renderPins();
+});
+
+var pin = document.querySelector('.map__pin--main');
+var onPinClick = function () {
+  var mapDelete = document.querySelector('.map');
+  mapDelete.classList.remove('map--faded');
+  isPinned++;
+  if (isPinned === 1) {
+    renderPins();
+  }
+
+  var formDelete = document.querySelector('.ad-form');
+  formDelete.classList.remove('ad-form--disabled');
+
+  var allFieldset = document.querySelectorAll('.ad-form__element');
+  for (var i = 0; i < allFieldset.length; i++) {
+    allFieldset[i].disabled = false;
+  }
+};
+var isPinned = 0;
+pin.addEventListener('mousedown', onPinClick);
 
 
+var renderPins = function () {
+  var mapPinsElement = document.querySelector('.map__pins');
+
+  for (var i = 0; i < COUNT_CARDS; i++) {
+    var card = generateCard(i + 1);
+    mapPinsElement.appendChild(createPinElement(card));
+    if (i === 0) {
+      document.querySelector('.map').insertBefore(createMapCardPopupElement(card), document.querySelector('.map__filters-container'));
+    }
+  }
+};
+
+var room = document.querySelector('#room_number');
+var guests = document.querySelector('#capacity');
+
+var onroomChange = function () {
+  for (var i = 0; i < guests.options.length; i++) {
+    guests.options[i].disabled = true;
+  }
+  if (room.options.selectedIndex === 0) {
+    guests.options.selectedIndex = 2;
+    for (i = 0; i < guests.options.length; i++) {
+      if (guests.options[i].text === 'для 1 гостя') {
+        guests.options[i].disabled = false;
+      }
+    }
+  } else if (room.options.selectedIndex === 1) {
+    guests.options.selectedIndex = 2;
+    for (i = 0; i < guests.options.length; i++) {
+      if ((guests.options[i].text === 'для 1 гостя') || (guests.options[i].text === 'для 2 гостей')) {
+        guests.options[i].disabled = false;
+      }
+    }
+  } else if (room.options.selectedIndex === 2) {
+    guests.options.selectedIndex = 2;
+    for (i = 0; i < guests.options.length; i++) {
+      if (guests.options[i].text !== 'не для гостей') {
+        guests.options[i].disabled = false;
+      }
+    }
+  } else if (room.options.selectedIndex === 3) {
+    guests.options.selectedIndex = 3;
+    for (i = 0; i < guests.options.length; i++) {
+      if (guests.options[i].text === 'не для гостей') {
+        guests.options[i].disabled = false;
+      }
+    }
+  }
+};
+
+room.addEventListener('change', onroomChange);
