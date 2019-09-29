@@ -83,8 +83,8 @@ var createMapCardPopupElement = function (card) {
 
   var mapCardPopupElement = document.querySelector('#card').content.querySelector('.map__card').cloneNode(true);
 
-  var mapCardPopupElemeтеImg = mapCardPopupElement.querySelector('.map__card img');
-  mapCardPopupElemeтеImg.src = card.author.avatar;
+  var mapCardPopupElementImg = mapCardPopupElement.querySelector('.map__card img');
+  mapCardPopupElementImg.src = card.author.avatar;
   mapCardPopupElement.querySelector('.popup__title').textContent = card.offer.title;
   mapCardPopupElement.querySelector('.popup__text--address').textContent = card.offer.address;
   mapCardPopupElement.querySelector('.popup__text--price').textContent = card.offer.price + ' ₽/ночь';
@@ -140,7 +140,7 @@ var mapPinsElement = document.querySelector('.map__pins');
 for (var i = 0; i < COUNT_CARDS; i++) {
   var card = generateCard(i + 1);
   mapPinsElement.appendChild(createPinElement(card));
+  if (i === 0) {
+    document.querySelector('.map').insertBefore(createMapCardPopupElement(card), document.querySelector('.map__filters-container'));
+  }
 }
-
-document.querySelector('.map').insertBefore(createMapCardPopupElement(card), document.querySelector('.map__filters-container'));
-
