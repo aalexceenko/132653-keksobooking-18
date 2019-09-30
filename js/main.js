@@ -132,63 +132,18 @@ var createMapCardPopupElement = function (card) {
   return mapCardPopupElement;
 };
 
-var pinHandle = document.querySelector('.map__pin--main');
-pinHandle.addEventListener('mousedown', function (evt) {
-  evt.preventDefault();
-
-  var startCordinate = {
-    x: evt.clientX,
-    y: evt.clientY
-  };
-
-  var MouseMoveHandler = function (moveEvt) {
-    moveEvt.preventDefault();
-
-    var shift = {
-      x: startCordinate.x - moveEvt.clientX,
-      y: startCordinate.y - moveEvt.clientY
-    };
-
-    startCordinate = {
-      x: moveEvt.clientX,
-      y: moveEvt.clientY
-    };
-
-    pinHandle.style.top = (pinHandle.offsetTop - shift.y) + 'px';
-    pinHandle.style.left = (pinHandle.offsetLeft - shift.x) + 'px';
-  };
-
-  var MouseUpHandler = function (upEvt) {
-    upEvt.preventDefault();
-
-    document.removeEventListener('mousemove', MouseMoveHandler);
-    document.removeEventListener('mouseup', MouseUpHandler);
-  };
-
-  document.addEventListener('mousemove', MouseMoveHandler);
-  document.addEventListener('mouseup', MouseUpHandler);
-});
-
+var isPinned = false;
 document.addEventListener('keydown', function (evt) {
   if (evt.keyCode === 13) {
-    document.querySelector('.map').classList.remove('map--faded');
-    isPinned++;
-    if (isPinned === 1) {
-      renderPins();
-    }
+    doActiveMap();
   }
-
-  // renderPins();
 });
+
 
 var pin = document.querySelector('.map__pin--main');
 var onPinClick = function () {
-  var mapDelete = document.querySelector('.map');
-  mapDelete.classList.remove('map--faded');
-  isPinned++;
-  if (isPinned === 1) {
-    renderPins();
-  }
+
+  doActiveMap();
 
   var formDelete = document.querySelector('.ad-form');
   formDelete.classList.remove('ad-form--disabled');
@@ -198,7 +153,17 @@ var onPinClick = function () {
     allFieldset[i].disabled = false;
   }
 };
-var isPinned = 0;
+
+var doActiveMap = function () {
+  document.querySelector('.map').classList.remove('map--faded');
+
+  if (isPinned === false) {
+    renderPins();
+  }
+
+  isPinned = true;
+};
+
 pin.addEventListener('mousedown', onPinClick);
 
 
