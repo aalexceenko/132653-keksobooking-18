@@ -132,6 +132,7 @@ var createMapCardPopupElement = function (card) {
   return mapCardPopupElement;
 };
 
+
 var isPinned = false;
 document.addEventListener('keydown', function (evt) {
   if (evt.keyCode === 13) {
@@ -143,10 +144,13 @@ document.addEventListener('keydown', function (evt) {
 var pin = document.querySelector('.map__pin--main');
 var onPinClick = function () {
 
+  document.querySelector('.map').classList.remove('map--faded');
+
   doActiveMap();
 
   var formDelete = document.querySelector('.ad-form');
   formDelete.classList.remove('ad-form--disabled');
+
 
   var allFieldset = document.querySelectorAll('.ad-form__element');
   for (var i = 0; i < allFieldset.length; i++) {
@@ -218,3 +222,4 @@ var onroomChange = function () {
 };
 
 room.addEventListener('change', onroomChange);
+
