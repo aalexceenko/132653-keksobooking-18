@@ -146,6 +146,7 @@ var onPinClick = function () {
 
   document.querySelector('.map').classList.remove('map--faded');
 
+
   doActiveMap();
 
   var formDelete = document.querySelector('.ad-form');
