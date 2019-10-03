@@ -20,6 +20,8 @@ var PIN_HEIGHT = 70;
 var DESCRIPTIONS = ['Сдам жилье недорого', 'Сдам жилье без детей', 'Сдам жилье без животных'];
 var TITLES = ['Лучшая локация', 'Историческое место', 'Лучшее в этом городе'];
 
+var KEYCODE_ESC = 27;
+var KEYCODE_ENTER = 13;
 
 var getRandomInteger = function (min, max) {
   return Math.floor(min + Math.random() * (max - min + 1));
@@ -140,7 +142,7 @@ var createMapCardPopupElement = function (card) {
 
 var isPinned = false;
 document.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === 13) {
+  if (evt.keyCode === KEYCODE_ENTER) {
     doActiveMap();
   }
 });
@@ -324,6 +326,16 @@ window.onMapPinClick = function (event) {
 
 document.querySelector('.map__pins').addEventListener('click', window.onMapPinClick);
 
+// document.addEventListener('keydown', function (e) {
+//   console.log(e.target);
+//   if (e.target.classList.contains('map__pin')) {
+//     if (e.keyCode === KEYCODE_ENTER) {
+//       window.onMapPinClick();
+//     }
+//   }
+
+// });
+
 var articleCard = document.querySelector('.map');
 var onarticleCardClick = function (e) {
   var button = e.target;
@@ -333,3 +345,9 @@ var onarticleCardClick = function (e) {
   }
 };
 articleCard.addEventListener('click', onarticleCardClick);
+
+articleCard.addEventListener('keydown', function (event) {
+  if (event.keyCode === KEYCODE_ESC) {
+    document.querySelector('.map__card').classList.add('hidden');
+  }
+});
