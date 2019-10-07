@@ -69,7 +69,7 @@ var generateCard = function (n) {
     location: location,
   };
 };
-var counter1 = 1;
+var counter = 1;
 var createPinElement = function (card) {
   var pinElement = document.querySelector('#pin').content.cloneNode(true);
 
@@ -77,10 +77,10 @@ var createPinElement = function (card) {
   var pinImageElement = pinElement.querySelector('.map__pin img');
   pinImageElement.src = card.author.avatar;
   pinImageElement.alt = card.offer.title;
-  pinImageElement.id = counter1;
+  pinImageElement.id = counter;
 
   // pinElement.querySelector('.map__pin').id = counter1;
-  counter1++;
+  counter++;
 
   return pinElement;
 };
@@ -177,9 +177,12 @@ pin.addEventListener('mousedown', onPinClick);
 
 var renderPins = function () {
   var mapPinsElement = document.querySelector('.map__pins');
-
+  var card = [];
   for (var i = 0; i < COUNT_CARDS; i++) {
-    var card = generateCard(i + 1);
+
+
+    card.push(generateCard(i + 1));
+    // var card = generateCard(i + 1);
     mapPinsElement.appendChild(createPinElement(card));
 
     if (i === 0) {
@@ -190,7 +193,7 @@ var renderPins = function () {
 
 
 var typeHouse = document.querySelector('#type');
-var ontypeHouseChange = function () {
+var onTypeHouseChange = function () {
 
   var priceForHouse = document.querySelector('#price');
 
@@ -208,12 +211,12 @@ var ontypeHouseChange = function () {
     priceForHouse.placeholder = '10000';
   }
 };
-typeHouse.addEventListener('change', ontypeHouseChange);
+typeHouse.addEventListener('change', onTypeHouseChange);
 
 var timeIn = document.querySelector('#timein');
 var timeOut = document.querySelector('#timeout');
 
-var ontimeInChange = function () {
+var onTimeInChange = function () {
   if (timeIn.options.selectedIndex === 0) {
     timeOut.options.selectedIndex = 0;
   } else if (timeIn.options.selectedIndex === 1) {
@@ -222,9 +225,9 @@ var ontimeInChange = function () {
     timeOut.options.selectedIndex = 2;
   }
 };
-timeIn.addEventListener('change', ontimeInChange);
+timeIn.addEventListener('change', onTimeInChange);
 
-var ontimeOutChange = function () {
+var onTimeOutChange = function () {
   if (timeOut.options.selectedIndex === 0) {
     timeIn.options.selectedIndex = 0;
   } else if (timeOut.options.selectedIndex === 1) {
@@ -233,12 +236,14 @@ var ontimeOutChange = function () {
     timeIn.options.selectedIndex = 2;
   }
 };
-timeOut.addEventListener('change', ontimeOutChange);
+timeOut.addEventListener('change', onTimeOutChange);
 
 var room = document.querySelector('#room_number');
 var guests = document.querySelector('#capacity');
 
-var onroomChange = function () {
+guests.disabled = true;
+
+var onRoomChange = function () {
   for (var i = 0; i < guests.options.length; i++) {
     guests.options[i].disabled = true;
   }
@@ -273,9 +278,9 @@ var onroomChange = function () {
   }
 };
 
-room.addEventListener('change', onroomChange);
+room.addEventListener('change', onRoomChange);
 
-var onguestsChange = function () {
+var onGuestsChange = function () {
   for (var i = 0; i < room.options.length; i++) {
     room.options[i].disabled = true;
   }
@@ -310,7 +315,7 @@ var onguestsChange = function () {
   }
 };
 
-guests.addEventListener('change', onguestsChange);
+guests.addEventListener('change', onGuestsChange);
 
 window.onMapPinClick = function (event) {
   var buttonPins = event.target.parentElement;
@@ -318,7 +323,9 @@ window.onMapPinClick = function (event) {
   if (buttonPins.classList.contains('map__pin')) {
     if (!buttonPins.classList.contains('map__pin--main')) {
       document.querySelector('.map').removeChild(document.querySelector('.map__card'));
-      document.querySelector('.map').insertBefore(createMapCardPopupElement(generateCard(buttonPinsId)), document.querySelector('.map__filters-container'));
+      document.querySelector('.map').insertBefore(createMapCardPopupElement(window.card[buttonPinsId]), document.querySelector('.map__filters-container'));
+
+      // document.querySelector('.map').insertBefore(createMapCardPopupElement(generateCard(buttonPinsId)), document.querySelector('.map__filters-container'));
       document.querySelector('.map__card').classList.remove('hidden');
     }
   }
