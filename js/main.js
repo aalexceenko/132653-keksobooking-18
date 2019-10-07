@@ -318,9 +318,7 @@ var updateMapCardPopup = function (card) {
 };
 
 window.onMapPinClick = function (evt) {
-
   var buttonPins = evt.target.parentElement;
-
   if (buttonPins.classList.contains('map__pin') && !buttonPins.classList.contains('map__pin--main')) {
     updateMapCardPopup(evt.target.card);
   }
