@@ -69,7 +69,7 @@ var generateCard = function (n) {
     location: location,
   };
 };
-var counter = 1;
+
 var createPinElement = function (card) {
   var pinElement = document.querySelector('#pin').content.cloneNode(true);
 
@@ -77,10 +77,7 @@ var createPinElement = function (card) {
   var pinImageElement = pinElement.querySelector('.map__pin img');
   pinImageElement.src = card.author.avatar;
   pinImageElement.alt = card.offer.title;
-  pinImageElement.id = counter;
-
-  // pinElement.querySelector('.map__pin').id = counter1;
-  counter++;
+  pinImageElement.card = card;
 
   return pinElement;
 };
@@ -174,15 +171,14 @@ var doActiveMap = function () {
 
 pin.addEventListener('mousedown', onPinClick);
 
-
+var cards = [];
 var renderPins = function () {
   var mapPinsElement = document.querySelector('.map__pins');
-  var card = [];
+
   for (var i = 0; i < COUNT_CARDS; i++) {
 
-
-    card.push(generateCard(i + 1));
-    // var card = generateCard(i + 1);
+    var card = generateCard(i + 1);
+    cards.push(card);
     mapPinsElement.appendChild(createPinElement(card));
 
     if (i === 0) {
@@ -241,8 +237,6 @@ timeOut.addEventListener('change', onTimeOutChange);
 var room = document.querySelector('#room_number');
 var guests = document.querySelector('#capacity');
 
-guests.disabled = true;
-
 var onRoomChange = function () {
   for (var i = 0; i < guests.options.length; i++) {
     guests.options[i].disabled = true;
@@ -277,7 +271,7 @@ var onRoomChange = function () {
     }
   }
 };
-
+onRoomChange();
 room.addEventListener('change', onRoomChange);
 
 var onGuestsChange = function () {
@@ -317,35 +311,32 @@ var onGuestsChange = function () {
 
 guests.addEventListener('change', onGuestsChange);
 
-window.onMapPinClick = function (event) {
-  var buttonPins = event.target.parentElement;
-  var buttonPinsId = event.target.id;
-  if (buttonPins.classList.contains('map__pin')) {
-    if (!buttonPins.classList.contains('map__pin--main')) {
-      document.querySelector('.map').removeChild(document.querySelector('.map__card'));
-      document.querySelector('.map').insertBefore(createMapCardPopupElement(window.card[buttonPinsId]), document.querySelector('.map__filters-container'));
+var updateMapCardPopup = function (card) {
+  document.querySelector('.map').removeChild(document.querySelector('.map__card'));
+  document.querySelector('.map').insertBefore(createMapCardPopupElement(card), document.querySelector('.map__filters-container'));
+  document.querySelector('.map__card').classList.remove('hidden');
+};
 
-      // document.querySelector('.map').insertBefore(createMapCardPopupElement(generateCard(buttonPinsId)), document.querySelector('.map__filters-container'));
-      document.querySelector('.map__card').classList.remove('hidden');
-    }
+window.onMapPinClick = function (evt) {
+
+  var buttonPins = evt.target.parentElement;
+
+  if (buttonPins.classList.contains('map__pin') && !buttonPins.classList.contains('map__pin--main')) {
+    updateMapCardPopup(evt.target.card);
   }
 };
 
 document.querySelector('.map__pins').addEventListener('click', window.onMapPinClick);
 
-// document.addEventListener('keydown', function (e) {
-//   console.log(e.target);
-//   if (e.target.classList.contains('map__pin')) {
-//     if (e.keyCode === KEYCODE_ENTER) {
-//       window.onMapPinClick();
-//     }
-//   }
-
-// });
+document.addEventListener('keydown', function (evt) {
+  if (evt.target.classList.contains('map__pin') && evt.keyCode === KEYCODE_ENTER) {
+    updateMapCardPopup(evt.target.querySelector('img').card);
+  }
+});
 
 var articleCard = document.querySelector('.map');
-var onarticleCardClick = function (e) {
-  var button = e.target;
+var onarticleCardClick = function (evt) {
+  var button = evt.target;
   if (button.classList.contains('popup__close')) {
     var cardElement = button.parentNode;
     cardElement.classList.add('hidden');
@@ -353,8 +344,8 @@ var onarticleCardClick = function (e) {
 };
 articleCard.addEventListener('click', onarticleCardClick);
 
-articleCard.addEventListener('keydown', function (event) {
-  if (event.keyCode === KEYCODE_ESC) {
+articleCard.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === KEYCODE_ESC) {
     document.querySelector('.map__card').classList.add('hidden');
   }
 });
