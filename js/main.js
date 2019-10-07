@@ -132,15 +132,94 @@ var createMapCardPopupElement = function (card) {
   return mapCardPopupElement;
 };
 
-document.querySelector('.map').classList.remove('map--faded');
 
-
-var mapPinsElement = document.querySelector('.map__pins');
-
-for (var i = 0; i < COUNT_CARDS; i++) {
-  var card = generateCard(i + 1);
-  mapPinsElement.appendChild(createPinElement(card));
-  if (i === 0) {
-    document.querySelector('.map').insertBefore(createMapCardPopupElement(card), document.querySelector('.map__filters-container'));
+var isPinned = false;
+document.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === 13) {
+    doActiveMap();
   }
-}
+});
+
+
+var pin = document.querySelector('.map__pin--main');
+var onPinClick = function () {
+  document.querySelector('.map').classList.remove('map--faded');
+  doActiveMap();
+  var formDelete = document.querySelector('.ad-form');
+  formDelete.classList.remove('ad-form--disabled');
+  var allFieldset = document.querySelectorAll('.ad-form__element');
+  for (var i = 0; i < allFieldset.length; i++) {
+    allFieldset[i].disabled = false;
+  }
+};
+
+var doActiveMap = function () {
+  document.querySelector('.map').classList.remove('map--faded');
+
+  if (!isPinned) {
+    renderPins();
+  }
+
+  isPinned = true;
+};
+
+pin.addEventListener('mousedown', onPinClick);
+
+
+var renderPins = function () {
+  var mapPinsElement = document.querySelector('.map__pins');
+
+  for (var i = 0; i < COUNT_CARDS; i++) {
+    var card = generateCard(i + 1);
+    mapPinsElement.appendChild(createPinElement(card));
+    if (i === 0) {
+      document.querySelector('.map').insertBefore(createMapCardPopupElement(card), document.querySelector('.map__filters-container'));
+    }
+  }
+};
+
+var room = document.querySelector('#room_number');
+var guests = document.querySelector('#capacity');
+
+
+var onRoomChange = function () {
+  guests.disabled = false;
+
+  for (var i = 0; i < guests.options.length; i++) {
+    guests.options[i].disabled = true;
+  }
+
+  if (room.options.selectedIndex === 0) {
+    guests.options.selectedIndex = 2;
+    for (i = 0; i < guests.options.length; i++) {
+      if (guests.options[i].text === 'для 1 гостя') {
+        guests.options[i].disabled = false;
+      }
+    }
+  } else if (room.options.selectedIndex === 1) {
+    guests.options.selectedIndex = 2;
+    for (i = 0; i < guests.options.length; i++) {
+      if ((guests.options[i].text === 'для 1 гостя') || (guests.options[i].text === 'для 2 гостей')) {
+        guests.options[i].disabled = false;
+      }
+    }
+  } else if (room.options.selectedIndex === 2) {
+    guests.options.selectedIndex = 2;
+    for (i = 0; i < guests.options.length; i++) {
+      if (guests.options[i].text !== 'не для гостей') {
+        guests.options[i].disabled = false;
+      }
+    }
+  } else if (room.options.selectedIndex === 3) {
+    guests.options.selectedIndex = 3;
+    for (i = 0; i < guests.options.length; i++) {
+      if (guests.options[i].text === 'не для гостей') {
+        guests.options[i].disabled = false;
+      }
+    }
+  }
+};
+
+onRoomChange();
+room.addEventListener('change', onRoomChange);
+
