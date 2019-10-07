@@ -54,14 +54,12 @@
 
   pin.addEventListener('mousedown', onPinClick);
 
-  var cards = [];
   var renderPins = function () {
     var mapPinsElement = document.querySelector('.map__pins');
 
     for (var i = 0; i < COUNT_CARDS; i++) {
 
       var card = window.generateCard(i + 1);
-      cards.push(card);
       mapPinsElement.appendChild(createPinElement(card));
 
       if (i === 0) {

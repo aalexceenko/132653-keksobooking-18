@@ -4,7 +4,7 @@
   pinHandle.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
-    var startCordinate = {
+    var startCoordinate = {
       x: evt.clientX,
       y: evt.clientY
     };
@@ -13,11 +13,11 @@
       moveEvt.preventDefault();
 
       var shift = {
-        x: startCordinate.x - moveEvt.clientX,
-        y: startCordinate.y - moveEvt.clientY
+        x: startCoordinate.x - moveEvt.clientX,
+        y: startCoordinate.y - moveEvt.clientY
       };
 
-      startCordinate = {
+      startCoordinate = {
         x: moveEvt.clientX,
         y: moveEvt.clientY
       };
