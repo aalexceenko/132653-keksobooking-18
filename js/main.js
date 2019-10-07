@@ -181,7 +181,6 @@ var renderPins = function () {
 var room = document.querySelector('#room_number');
 var guests = document.querySelector('#capacity');
 
-guests.disabled = true;
 
 var onRoomChange = function () {
   guests.disabled = false;
@@ -221,5 +220,6 @@ var onRoomChange = function () {
   }
 };
 
+onRoomChange();
 room.addEventListener('change', onRoomChange);
 
