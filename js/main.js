@@ -143,16 +143,10 @@ document.addEventListener('keydown', function (evt) {
 
 var pin = document.querySelector('.map__pin--main');
 var onPinClick = function () {
-
   document.querySelector('.map').classList.remove('map--faded');
-
-
   doActiveMap();
-
   var formDelete = document.querySelector('.ad-form');
   formDelete.classList.remove('ad-form--disabled');
-
-
   var allFieldset = document.querySelectorAll('.ad-form__element');
   for (var i = 0; i < allFieldset.length; i++) {
     allFieldset[i].disabled = false;
@@ -162,7 +156,7 @@ var onPinClick = function () {
 var doActiveMap = function () {
   document.querySelector('.map').classList.remove('map--faded');
 
-  if (isPinned === false) {
+  if (!isPinned) {
     renderPins();
   }
 
@@ -187,10 +181,15 @@ var renderPins = function () {
 var room = document.querySelector('#room_number');
 var guests = document.querySelector('#capacity');
 
-var onroomChange = function () {
+guests.disabled = true;
+
+var onRoomChange = function () {
+  guests.disabled = false;
+
   for (var i = 0; i < guests.options.length; i++) {
     guests.options[i].disabled = true;
   }
+
   if (room.options.selectedIndex === 0) {
     guests.options.selectedIndex = 2;
     for (i = 0; i < guests.options.length; i++) {
@@ -222,5 +221,5 @@ var onroomChange = function () {
   }
 };
 
-room.addEventListener('change', onroomChange);
+room.addEventListener('change', onRoomChange);
 
