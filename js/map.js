@@ -15,7 +15,7 @@
     var maxX = mapElement.offsetWidth + mapElement.offsetLeft;
     var minX = mapElement.offsetLeft;
     var maxY = mapElement.offsetHeight + mapElement.offsetLeft;
-    var minY = mapElement.offsetLeft;
+    var minY = mapElement.offsetTop;
 
     var startCoordinate = {
       x: evt.clientX,
