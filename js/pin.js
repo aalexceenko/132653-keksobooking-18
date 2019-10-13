@@ -24,26 +24,22 @@
     document.querySelector('.map').classList.remove('map--faded');
 
     if (isPinned === false) {
-
       window.successHandler();
     }
-
     isPinned = true;
   };
 
   var isPinned = false;
   document.addEventListener('keydown', function (evt) {
     if (evt.keyCode === window.KEYCODE_ENTER) {
-      doActiveMap();
+      onPinClick();
     }
   });
 
 
   var pin = document.querySelector('.map__pin--main');
-  var onPinClick = function () {
 
-    doActiveMap();
-
+  var formActive = function () {
     var formDelete = document.querySelector('.ad-form');
     formDelete.classList.remove('ad-form--disabled');
 
@@ -51,6 +47,11 @@
     for (var i = 0; i < allFieldset.length; i++) {
       allFieldset[i].disabled = false;
     }
+  };
+
+  var onPinClick = function () {
+    formActive();
+    doActiveMap();
   };
 
   pin.addEventListener('mousedown', onPinClick);

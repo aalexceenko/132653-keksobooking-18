@@ -42,14 +42,18 @@
     var photo = mapCardPopupElement.querySelector('.popup__photo');
     photo.src = card.offer.photos[0];
 
-    for (i = 0; i <= card.offer.photos.length - 2; i++) {
-      var photoNew = document.createElement('img');
-      photoNew.classList.add('popup__photo');
-      photoNew.width = '45';
-      photoNew.height = '40';
-      photoNew.alt = 'Фотография жилья';
-      photoNew.src = card.offer.photos[i + 1];
-      photos.appendChild(photoNew);
+    if (card.offer.photos.length !== 0) {
+      for (i = 0; i <= card.offer.photos.length - 2; i++) {
+        var photoNew = document.createElement('img');
+        photoNew.classList.add('popup__photo');
+        photoNew.width = '45';
+        photoNew.height = '40';
+        photoNew.alt = 'Фотография жилья';
+        photoNew.src = card.offer.photos[i + 1];
+        photos.appendChild(photoNew);
+      }
+    } else {
+      mapCardPopupElement.removeChild(photos);
     }
 
     mapCardPopupElement.classList.add('hidden');
