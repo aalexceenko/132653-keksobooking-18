@@ -24,7 +24,8 @@
     document.querySelector('.map').classList.remove('map--faded');
 
     if (isPinned === false) {
-      renderPins();
+
+      window.successHandler();
     }
 
     isPinned = true;
@@ -54,18 +55,24 @@
 
   pin.addEventListener('mousedown', onPinClick);
 
-  var renderPins = function () {
+  window.successHandler = function (dataCard) {
     var mapPinsElement = document.querySelector('.map__pins');
+    var fragment = document.createDocumentFragment();
 
     for (var i = 0; i < COUNT_CARDS; i++) {
 
-      var card = window.generateCard(i + 1);
-      mapPinsElement.appendChild(createPinElement(card));
+      fragment.appendChild(createPinElement(dataCard[i + 1]));
 
       if (i === 0) {
-        document.querySelector('.map').insertBefore(window.createMapCardPopupElement(card), document.querySelector('.map__filters-container'));
+        document.querySelector('.map').insertBefore(window.createMapCardPopupElement(dataCard[i]), document.querySelector('.map__filters-container'));
       }
     }
+    mapPinsElement.appendChild(fragment);
+  };
+
+  window.errorHandler = function () {
+    var errorMessage = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
+    document.body.insertAdjacentElement('afterbegin', errorMessage);
   };
 
 })();
