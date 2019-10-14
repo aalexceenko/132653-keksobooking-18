@@ -59,10 +59,9 @@
   window.successHandler = function (dataCard) {
     var mapPinsElement = document.querySelector('.map__pins');
     var fragment = document.createDocumentFragment();
-
     for (var i = 0; i < COUNT_CARDS; i++) {
 
-      fragment.appendChild(createPinElement(dataCard[i + 1]));
+      fragment.appendChild(createPinElement(dataCard[i]));
 
       if (i === 0) {
         document.querySelector('.map').insertBefore(window.createMapCardPopupElement(dataCard[i]), document.querySelector('.map__filters-container'));
