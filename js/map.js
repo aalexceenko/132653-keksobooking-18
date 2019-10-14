@@ -8,13 +8,10 @@
     evt.preventDefault();
 
     var mapElement = document.querySelector('.map');
-    var clip = function (value, min, max) {
-      return Math.min(Math.max(value, min), max);
-    };
 
     var maxX = mapElement.offsetWidth + mapElement.offsetLeft;
     var minX = mapElement.offsetLeft;
-    var maxY = mapElement.offsetHeight + mapElement.offsetLeft;
+    var maxY = mapElement.offsetHeight + mapElement.offsetTop;
     var minY = mapElement.offsetTop;
 
     var startCoordinate = {
@@ -31,8 +28,8 @@
       };
 
       startCoordinate = {
-        x: clip(moveEvt.clientX, minX, maxX),
-        y: clip(moveEvt.clientY, minY, maxY)
+        x: window.clip(moveEvt.clientX, minX, maxX),
+        y: window.clip(moveEvt.clientY, minY, maxY)
       };
 
       var valueX = mainPinElement.offsetLeft - shift.x;
@@ -44,8 +41,8 @@
       minY = -mainPinElement.offsetHeight / 2;
       maxY = mapElement.offsetHeight - mainPinElement.offsetHeight / 2;
 
-      mainPinElement.style.left = clip(valueX, minX, maxX) + 'px';
-      mainPinElement.style.top = clip(valueY, minY, maxY) + document.body.scrollTop + 'px';
+      mainPinElement.style.left = window.clip(valueX, minX, maxX) + 'px';
+      mainPinElement.style.top = window.clip(valueY, minY, maxY) + document.body.scrollTop + 'px';
     };
 
     var mouseUpHandler = function (upEvt) {
