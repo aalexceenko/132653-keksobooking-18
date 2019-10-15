@@ -1,8 +1,6 @@
 'use strict';
 (function () {
 
-
-  var COUNT_CARDS = 8;
   var PIN_WIDTH = 50;
   var PIN_HEIGHT = 70;
   window.KEYCODE_ENTER = 13;
@@ -20,29 +18,21 @@
     return pinElement;
   };
 
+
   var doActiveMap = function () {
     document.querySelector('.map').classList.remove('map--faded');
-
-    if (isPinned === false) {
-      renderPins();
-    }
-
-    isPinned = true;
   };
 
-  var isPinned = false;
   document.addEventListener('keydown', function (evt) {
     if (evt.keyCode === window.KEYCODE_ENTER) {
-      doActiveMap();
+      onPinClick();
     }
   });
 
 
   var pin = document.querySelector('.map__pin--main');
-  var onPinClick = function () {
 
-    doActiveMap();
-
+  var formActive = function () {
     var formDelete = document.querySelector('.ad-form');
     formDelete.classList.remove('ad-form--disabled');
 
@@ -52,20 +42,32 @@
     }
   };
 
+  var onPinClick = function () {
+    formActive();
+    doActiveMap();
+  };
+
   pin.addEventListener('mousedown', onPinClick);
 
-  var renderPins = function () {
+  window.successHandler = function (dataCard) {
     var mapPinsElement = document.querySelector('.map__pins');
+    var fragment = document.createDocumentFragment();
 
-    for (var i = 0; i < COUNT_CARDS; i++) {
+    for (var i = 0; i < dataCard.length; i++) {
 
-      var card = window.generateCard(i + 1);
-      mapPinsElement.appendChild(createPinElement(card));
+      fragment.appendChild(createPinElement(dataCard[i]));
 
       if (i === 0) {
-        document.querySelector('.map').insertBefore(window.createMapCardPopupElement(card), document.querySelector('.map__filters-container'));
+        document.querySelector('.map').insertBefore(window.createMapCardPopupElement(dataCard[i]), document.querySelector('.map__filters-container'));
       }
     }
+    mapPinsElement.appendChild(fragment);
+
+  };
+
+  window.errorHandler = function () {
+    var errorMessage = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
+    document.body.insertAdjacentElement('afterbegin', errorMessage);
   };
 
 })();

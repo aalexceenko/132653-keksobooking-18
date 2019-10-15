@@ -3,9 +3,16 @@
 (function () {
 
   var mainPinElement = document.querySelector('.map__pin--main');
+  var isPinned = false;
 
   mainPinElement.addEventListener('mousedown', function (evt) {
+
     evt.preventDefault();
+
+    if (isPinned === false) {
+      window.load(window.successHandler, window.errorHandler);
+    }
+    isPinned = true;
 
     var mapElement = document.querySelector('.map');
 
@@ -54,5 +61,13 @@
 
     document.addEventListener('mousemove', mouseMoveHandler);
     document.addEventListener('mouseup', mouseUpHandler);
+  });
+
+  mainPinElement.addEventListener('keydown', function (evt) {
+    evt.preventDefault();
+    if (evt.keyCode === window.KEYCODE_ENTER) {
+      window.load(window.successHandler, window.errorHandler);
+    }
+
   });
 })();

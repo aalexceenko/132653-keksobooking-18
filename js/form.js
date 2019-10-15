@@ -122,5 +122,7 @@
   };
 
   guests.addEventListener('change', onGuestsChange);
+
 }
+
 )();
