@@ -1,8 +1,6 @@
 'use strict';
 (function () {
 
-
-  var COUNT_CARDS = 8;
   var PIN_WIDTH = 50;
   var PIN_HEIGHT = 70;
   window.KEYCODE_ENTER = 13;
@@ -20,16 +18,11 @@
     return pinElement;
   };
 
+
   var doActiveMap = function () {
     document.querySelector('.map').classList.remove('map--faded');
-
-    if (isPinned === false) {
-      window.successHandler();
-    }
-    isPinned = true;
   };
 
-  var isPinned = false;
   document.addEventListener('keydown', function (evt) {
     if (evt.keyCode === window.KEYCODE_ENTER) {
       onPinClick();
@@ -59,7 +52,8 @@
   window.successHandler = function (dataCard) {
     var mapPinsElement = document.querySelector('.map__pins');
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < COUNT_CARDS; i++) {
+
+    for (var i = 0; i < dataCard.length; i++) {
 
       fragment.appendChild(createPinElement(dataCard[i]));
 
@@ -68,6 +62,7 @@
       }
     }
     mapPinsElement.appendChild(fragment);
+
   };
 
   window.errorHandler = function () {

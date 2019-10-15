@@ -3,11 +3,16 @@
 (function () {
 
   var mainPinElement = document.querySelector('.map__pin--main');
+  var isPinned = false;
 
   mainPinElement.addEventListener('mousedown', function (evt) {
+
     evt.preventDefault();
 
-    window.load(window.successHandler, window.errorHandler);
+    if (isPinned === false) {
+      window.load(window.successHandler, window.errorHandler);
+    }
+    isPinned = true;
 
     var mapElement = document.querySelector('.map');
 
