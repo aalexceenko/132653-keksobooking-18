@@ -3,11 +3,16 @@
 (function () {
 
   var mainPinElement = document.querySelector('.map__pin--main');
+  var isPinned = false;
 
   mainPinElement.addEventListener('mousedown', function (evt) {
+
     evt.preventDefault();
 
-    window.load(window.successHandler, window.errorHandler);
+    if (isPinned === false) {
+      window.load(window.successHandler, window.errorHandler);
+    }
+    isPinned = true;
 
     var mapElement = document.querySelector('.map');
 
@@ -20,6 +25,9 @@
       x: evt.clientX,
       y: evt.clientY
     };
+    var value = startCoordinate.x + ', ' + startCoordinate.y;
+    document.querySelector('.ad-form').querySelector('#address').value = value;
+    // document.querySelector('.ad-form').querySelector('#address').value.textContent = value;
 
     var mouseMoveHandler = function (moveEvt) {
       moveEvt.preventDefault();
@@ -33,6 +41,16 @@
         x: window.clip(moveEvt.clientX, minX, maxX),
         y: window.clip(moveEvt.clientY, minY, maxY)
       };
+
+      window.lastCoordinate = {
+        x: moveEvt.clientX,
+        y: moveEvt.clientY
+      };
+
+      // console.log(window.lastCoordinate);
+      console.log(window.lastCoordinate.x, window.lastCoordinate.y);
+      document.querySelector('.ad-form').querySelector('#address').value = window.lastCoordinate.x + ', ' + window.lastCoordinate.y;
+
 
       var valueX = mainPinElement.offsetLeft - shift.x;
       var valueY = mainPinElement.offsetTop - shift.y;

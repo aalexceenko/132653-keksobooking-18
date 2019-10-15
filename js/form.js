@@ -124,6 +124,9 @@
   guests.addEventListener('change', onGuestsChange);
 
   var form = document.querySelector('.ad-form');
+  // document.querySelector('.ad-form').querySelector('#address').value = window.lastCoordinate;
+  // document.querySelector('.ad-form').querySelector('#address').value = window.lastCoordinate.x + ', ' + window.lastCoordinate.y;
+
 
   form.addEventListener('submit', function (evt) {
     // var userDialog = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
@@ -146,6 +149,12 @@
       document.querySelector('#success').classList.add('hidden');
     });
   };
+
+  // var resetBtn = document.querySelector('.ad-form').querySelector('.ad-form__reset');
+  // resetBtn.addEventListener('click', function (evt) {
+  //   evt.preventDefault();
+  //   window.pageStatus.disablePage();
+  // });
 }
 
 )();
