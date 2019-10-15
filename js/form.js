@@ -123,6 +123,29 @@
 
   guests.addEventListener('change', onGuestsChange);
 
+  var form = document.querySelector('.ad-form');
+
+  form.addEventListener('submit', function (evt) {
+    // var userDialog = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
+    // document.body.insertAdjacentElement('afterbegin', userDialog);
+    evt.preventDefault();
+    // window.upload(new FormData(form), function () {
+    //   document.addEventListener('click', function () {
+    //     // userDialog.classList.add('hidden');
+    //   });
+
+    // });
+    window.upload(new FormData(form), formUpload, window.errorHandler);
+    // evt.preventDefault();
+  });
+
+  var formUpload = function () {
+    var userDialog = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
+    document.body.insertAdjacentElement('afterbegin', userDialog);
+    document.addEventListener('click', function () {
+      document.querySelector('#success').classList.add('hidden');
+    });
+  };
 }
 
 )();
