@@ -104,7 +104,7 @@
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--wide" disabled>
           <label class="ad-form__label" for="address">Адрес</label>
-          <input id="address" name="address" type="text" placeholder="375, 570" disabled>
+          <input id="address" value="" name="address" type="text" placeholder="375, 570" readonly>
         </fieldset>
         <fieldset class="ad-form__element" disabled>
           <label class="ad-form__label" for="type">Тип жилья</label>
@@ -117,7 +117,7 @@
         </fieldset>
         <fieldset class="ad-form__element" disabled>
           <label class="ad-form__label" for="price">Цена за ночь, руб.</label>
-          <input id="price" name="price" type="number" placeholder="5000" required max="1000000">
+          <input id="price" name="price" type="number" placeholder="1000" required min="1000" max="1000000">
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--time" disabled>
           <label class="ad-form__label" for="timein">Время заезда и выезда</label>
