@@ -3,16 +3,16 @@
 (function () {
 
   var mainPinElement = document.querySelector('.map__pin--main');
-  var isPinned = false;
+  window.isPinned = false;
 
   mainPinElement.addEventListener('mousedown', function (evt) {
 
     evt.preventDefault();
 
-    if (isPinned === false) {
+    if (window.isPinned === false) {
       window.load(window.successHandler, window.errorHandler);
     }
-    isPinned = true;
+    window.isPinned = true;
 
     var mapElement = document.querySelector('.map');
 
@@ -20,6 +20,10 @@
     var minX = mapElement.offsetLeft;
     var maxY = mapElement.offsetHeight + mapElement.offsetTop;
     var minY = mapElement.offsetTop;
+    // var maxY = 130;
+    // var minY = 630;
+    // console.log(maxY);
+    // console.log(minY);
 
     var startCoordinate = {
       x: evt.clientX,
@@ -27,7 +31,6 @@
     };
     var value = startCoordinate.x + ', ' + startCoordinate.y;
     document.querySelector('.ad-form').querySelector('#address').value = value;
-    // document.querySelector('.ad-form').querySelector('#address').value.textContent = value;
 
     var mouseMoveHandler = function (moveEvt) {
       moveEvt.preventDefault();
@@ -47,8 +50,6 @@
         y: moveEvt.clientY
       };
 
-      // console.log(window.lastCoordinate);
-      console.log(window.lastCoordinate.x, window.lastCoordinate.y);
       document.querySelector('.ad-form').querySelector('#address').value = window.lastCoordinate.x + ', ' + window.lastCoordinate.y;
 
 

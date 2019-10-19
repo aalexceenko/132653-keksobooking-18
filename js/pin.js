@@ -52,7 +52,7 @@
   window.successHandler = function (dataCard) {
     var mapPinsElement = document.querySelector('.map__pins');
     var fragment = document.createDocumentFragment();
-    console.log(dataCard);
+
     for (var i = 0; i < dataCard.length; i++) {
 
       fragment.appendChild(createPinElement(dataCard[i]));
@@ -66,8 +66,12 @@
   };
 
   window.errorHandler = function () {
-    var errorMessage = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
-    document.body.insertAdjacentElement('afterbegin', errorMessage);
+    window.errorMessage = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
+    document.querySelector('main').insertAdjacentElement('afterbegin', window.errorMessage);
+    window.errorMessage.addEventListener('mousedown', function () {
+      document.querySelector('main').removeChild(window.errorMessage);
+    });
+
   };
 
 })();
