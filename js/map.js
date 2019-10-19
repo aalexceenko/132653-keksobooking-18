@@ -3,16 +3,16 @@
 (function () {
 
   var mainPinElement = document.querySelector('.map__pin--main');
-  var isPinned = false;
+  window.isPinned = false;
 
   mainPinElement.addEventListener('mousedown', function (evt) {
 
     evt.preventDefault();
 
-    if (isPinned === false) {
+    if (window.isPinned === false) {
       window.load(window.successHandler, window.errorHandler);
     }
-    isPinned = true;
+    window.isPinned = true;
 
     var mapElement = document.querySelector('.map');
 
@@ -20,11 +20,17 @@
     var minX = mapElement.offsetLeft;
     var maxY = mapElement.offsetHeight + mapElement.offsetTop;
     var minY = mapElement.offsetTop;
+    // var maxY = 130;
+    // var minY = 630;
+    // console.log(maxY);
+    // console.log(minY);
 
     var startCoordinate = {
       x: evt.clientX,
       y: evt.clientY
     };
+    var value = startCoordinate.x + ', ' + startCoordinate.y;
+    document.querySelector('.ad-form').querySelector('#address').value = value;
 
     var mouseMoveHandler = function (moveEvt) {
       moveEvt.preventDefault();
@@ -38,6 +44,14 @@
         x: window.clip(moveEvt.clientX, minX, maxX),
         y: window.clip(moveEvt.clientY, minY, maxY)
       };
+
+      window.lastCoordinate = {
+        x: moveEvt.clientX,
+        y: moveEvt.clientY
+      };
+
+      document.querySelector('.ad-form').querySelector('#address').value = window.lastCoordinate.x + ', ' + window.lastCoordinate.y;
+
 
       var valueX = mainPinElement.offsetLeft - shift.x;
       var valueY = mainPinElement.offsetTop - shift.y;

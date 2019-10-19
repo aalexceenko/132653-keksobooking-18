@@ -1,6 +1,6 @@
 'use strict';
 (function () {
-  var KEYCODE_ESC = 27;
+  window.KEYCODE_ESC = 27;
 
   window.createMapCardPopupElement = function (card) {
 
@@ -93,7 +93,7 @@
   articleCard.addEventListener('click', onarticleCardClick);
 
   articleCard.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === KEYCODE_ESC) {
+    if (evt.keyCode === window.KEYCODE_ESC) {
       document.querySelector('.map__card').classList.add('hidden');
     }
   });

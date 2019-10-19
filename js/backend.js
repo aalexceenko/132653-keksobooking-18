@@ -3,6 +3,7 @@
 (function () {
 
   var URL_LOAD = 'https://js.dump.academy/keksobooking/data';
+  var URL_UPLOAD = 'https://js.dump.academy/keksobooking';
   var TIMEOUT = 10000;
 
   var httpStatusCodes = {
@@ -50,6 +51,26 @@
 
     xhr.open('GET', URL_LOAD);
     xhr.send();
+  };
+
+  window.upload = function (data, onLoad, onError) {
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = 'json';
+
+    xhr.addEventListener('load', function () {
+      if (xhr.status === httpStatusCodes.SUCCESS) {
+        onLoad(xhr.response);
+      } else {
+        onError('Cтатус ответа: ' + xhr.status + ' ' + xhr.statusText);
+      }
+    });
+
+    xhr.addEventListener('error', function () {
+      onError('Произошла ошибка соединения');
+    });
+
+    xhr.open('POST', URL_UPLOAD);
+    xhr.send(data);
   };
 
 })();

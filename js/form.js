@@ -123,6 +123,60 @@
 
   guests.addEventListener('change', onGuestsChange);
 
+  var form = document.querySelector('.ad-form');
+
+  form.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.upload(new FormData(form), formUpload, window.errorHandler);
+  });
+
+  var formUpload = function () {
+    var userDialog = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
+    document.querySelector('main').insertAdjacentElement('afterbegin', userDialog);
+
+    window.userDialog.addEventListener('mousedown', function () {
+      document.querySelector('main').removeChild(userDialog);
+    });
+
+    window.doNotActiveMap();
+
+  };
+
+
+  document.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === window.KEYCODE_ESC && (document.querySelector('main').firstChild.classList.contains('success') || document.querySelector('main').firstChild.classList.contains('error'))) {
+      document.querySelector('main').removeChild(document.querySelector('main').firstChild);
+    }
+  });
+
+  window.doNotActiveMap = function () {
+    document.querySelector('.map').classList.add('map--faded');
+    document.querySelector('.ad-form').classList.add('ad-form--disabled');
+    document.querySelector('.map__pin--main').style = 'left: ' + 570 + 'px; top: ' + 375 + 'px';
+    var allFieldset = document.querySelectorAll('.ad-form__element');
+    for (var i = 0; i < allFieldset.length; i++) {
+      allFieldset[i].disabled = true;
+    }
+    document.querySelector('.ad-form').reset();
+    var pins = document.querySelectorAll('.map__pin');
+
+    for (var j = 1; j < pins.length; j++) {
+      document.querySelector('.map__pins').removeChild(pins[j]);
+    }
+    window.isPinned = false;
+  };
+
+
+  var title = document.querySelector('#title');
+  title.addEventListener('input', function () {
+
+    if (title.value.length < 30 || title.value.length > 100) {
+      title.setCustomValidity('Заголовок объявления должен содержать от 30 до 100 символов');
+    } else {
+      title.setCustomValidity('');
+    }
+  });
+
 }
 
 )();
