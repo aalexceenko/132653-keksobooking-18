@@ -11,6 +11,7 @@
     mapCardPopupElement.querySelector('.popup__title').textContent = card.offer.title;
     mapCardPopupElement.querySelector('.popup__text--address').textContent = card.offer.address;
     mapCardPopupElement.querySelector('.popup__text--price').textContent = card.offer.price + ' ₽/ночь';
+    mapCardPopupElement.querySelector('.popup__type').textContent = card.offer.type;
 
     if ((card.offer.rooms === 1) || (card.offer.guests === 1)) {
       mapCardPopupElement.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' комната для ' + card.offer.guests + ' гостя';

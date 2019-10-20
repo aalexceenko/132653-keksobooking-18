@@ -6,7 +6,7 @@
   window.KEYCODE_ENTER = 13;
 
 
-  var createPinElement = function (card) {
+  window.createPinElement = function (card) {
     var pinElement = document.querySelector('#pin').content.cloneNode(true);
 
     pinElement.querySelector('.map__pin').style = 'left: ' + (card.location.x - PIN_WIDTH / 2) + 'px; top: ' + (card.location.y - PIN_HEIGHT) + 'px';
@@ -52,10 +52,12 @@
   window.successHandler = function (dataCard) {
     var mapPinsElement = document.querySelector('.map__pins');
     var fragment = document.createDocumentFragment();
+    window.newPins = dataCard;
+    // console.log(dataCard);
+    for (var i = 0; i < 5; i++) {
+    // for (var i = 0; i < dataCard.length; i++) {
 
-    for (var i = 0; i < dataCard.length; i++) {
-
-      fragment.appendChild(createPinElement(dataCard[i]));
+      fragment.appendChild(window.createPinElement(dataCard[i]));
 
       if (i === 0) {
         document.querySelector('.map').insertBefore(window.createMapCardPopupElement(dataCard[i]), document.querySelector('.map__filters-container'));
