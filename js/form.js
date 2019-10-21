@@ -1,5 +1,8 @@
 'use strict';
 (function () {
+  var MIN_LENGTH_SYMBOLS = 30;
+  var MAX_LENGTH_SYMBOLS = 100;
+
   var typeHouse = document.querySelector('#type');
   var onTypeHouseChange = function () {
 
@@ -170,13 +173,12 @@
   var title = document.querySelector('#title');
   title.addEventListener('input', function () {
 
-    if (title.value.length < 30 || title.value.length > 100) {
+    if (title.value.length < MIN_LENGTH_SYMBOLS || title.value.length > MAX_LENGTH_SYMBOLS) {
       title.setCustomValidity('Заголовок объявления должен содержать от 30 до 100 символов');
     } else {
       title.setCustomValidity('');
     }
   });
-
 }
 
 )();

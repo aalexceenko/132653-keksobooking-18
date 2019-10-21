@@ -3,6 +3,7 @@
 
   var PIN_WIDTH = 50;
   var PIN_HEIGHT = 70;
+  window.COUNT_PINS = 5;
   window.KEYCODE_ENTER = 13;
 
 
@@ -53,11 +54,12 @@
     var mapPinsElement = document.querySelector('.map__pins');
     var fragment = document.createDocumentFragment();
     window.newPins = dataCard;
-    // console.log(dataCard);
-    for (var i = 0; i < 5; i++) {
-    // for (var i = 0; i < dataCard.length; i++) {
+    var randomArray = window.shuffle(dataCard);
+    randomArray = randomArray.slice(0, 5);
 
-      fragment.appendChild(window.createPinElement(dataCard[i]));
+    for (var i = 0; i < window.COUNT_PINS; i++) {
+
+      fragment.appendChild(window.createPinElement(randomArray[i]));
 
       if (i === 0) {
         document.querySelector('.map').insertBefore(window.createMapCardPopupElement(dataCard[i]), document.querySelector('.map__filters-container'));
