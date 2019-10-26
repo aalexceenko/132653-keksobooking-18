@@ -137,7 +137,7 @@
     var userDialog = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
     document.querySelector('main').insertAdjacentElement('afterbegin', userDialog);
 
-    window.userDialog.addEventListener('mousedown', function () {
+    userDialog.addEventListener('mousedown', function () {
       document.querySelector('main').removeChild(userDialog);
     });
 
@@ -147,7 +147,7 @@
 
 
   document.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === window.KEYCODE_ESC && (document.querySelector('main').firstChild.classList.contains('success') || document.querySelector('main').firstChild.classList.contains('error'))) {
+    if (evt.keyCode === window.KEYCODE_ESC && evt.target.classList.contains('') && (document.querySelector('main').firstChild.classList.contains('success') || document.querySelector('main').firstChild.classList.contains('error'))) {
       document.querySelector('main').removeChild(document.querySelector('main').firstChild);
     }
   });

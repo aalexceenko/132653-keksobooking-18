@@ -7,14 +7,24 @@
   var mainPinElement = document.querySelector('.map__pin--main');
   window.isPinned = false;
 
-  mainPinElement.addEventListener('mousedown', function (evt) {
+  var windowWidth = window.innerWidth;
+  var overlayWidth = document.querySelector('.map__overlay').offsetWidth;
+  var deltaWidth = (windowWidth - overlayWidth) / 2;
 
-    evt.preventDefault();
+  var mainPinElementHalf = mainPinElement.offsetWidth / 2;
 
+  var loadNewPins = function () {
     if (window.isPinned === false) {
       window.load(window.successHandler, window.errorHandler);
     }
     window.isPinned = true;
+  };
+
+  mainPinElement.addEventListener('mousedown', function (evt) {
+
+    evt.preventDefault();
+
+    loadNewPins();
 
     var mapElement = document.querySelector('.map');
 
@@ -27,8 +37,6 @@
       x: evt.clientX,
       y: evt.clientY
     };
-
-    document.querySelector('.ad-form').querySelector('#address').value = startCoordinate.x + ', ' + startCoordinate.y;
 
     var mouseMoveHandler = function (moveEvt) {
       moveEvt.preventDefault();
@@ -43,25 +51,19 @@
         y: window.clip(moveEvt.clientY, minY, maxY)
       };
 
-      window.lastCoordinate = {
-        x: moveEvt.clientX,
-        y: moveEvt.clientY
-      };
-
-      document.querySelector('.ad-form').querySelector('#address').value = window.lastCoordinate.x + ', ' + window.lastCoordinate.y;
-
-
-      var valueX = mainPinElement.offsetLeft - shift.x;
+      var valueX = moveEvt.clientX - shift.x;
       var valueY = mainPinElement.offsetTop - shift.y;
 
-      minX = -mainPinElement.offsetWidth / 2;
-      maxX = mapElement.offsetWidth - mainPinElement.offsetWidth / 2;
+      minX = deltaWidth;
+      maxX = mapElement.offsetWidth + deltaWidth;
 
       minY = BORDER_TOP - mainPinElement.offsetHeight;
       maxY = BORDER_BOTTOM - mainPinElement.offsetHeight;
 
-      mainPinElement.style.left = window.clip(valueX, minX, maxX) + 'px';
+      mainPinElement.style.left = window.clip(valueX, minX, maxX) - deltaWidth - mainPinElementHalf + 'px';
       mainPinElement.style.top = window.clip(valueY, minY, maxY) + 'px';
+
+      document.querySelector('.ad-form').querySelector('#address').value = Math.round(window.clip(valueX, minX, maxX) + mainPinElementHalf) + ', ' + (window.clip(valueY, minY, maxY) + mainPinElementHalf + mainPinElementHalf);
 
     };
 
@@ -78,8 +80,10 @@
 
   mainPinElement.addEventListener('keydown', function (evt) {
     evt.preventDefault();
+
     if (evt.keyCode === window.KEYCODE_ENTER) {
-      window.load(window.successHandler, window.errorHandler);
+      loadNewPins();
     }
   });
+
 })();

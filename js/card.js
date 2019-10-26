@@ -21,7 +21,7 @@
       mapCardPopupElement.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' комнаты для ' + card.offer.guests + ' гостей';
     }
 
-    mapCardPopupElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + ', выезд до' + card.offer.checkout;
+    mapCardPopupElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
 
     mapCardPopupElement.querySelector('.popup__description').textContent = card.offer.description;
 
@@ -78,7 +78,7 @@
   document.querySelector('.map__pins').addEventListener('click', window.onMapPinClick);
 
   document.addEventListener('keydown', function (evt) {
-    if (evt.target.classList.contains('map__pin') && evt.keyCode === window.KEYCODE_ENTER) {
+    if (evt.target.classList.contains('map__pin') && !evt.target.classList.contains('map__pin--main') && evt.keyCode === window.KEYCODE_ENTER) {
       updateMapCardPopup(evt.target.querySelector('img').card);
     }
   });
@@ -91,7 +91,7 @@
       cardElement.classList.add('hidden');
     }
   };
-  articleCard.addEventListener('click', onarticleCardClick);
+  articleCard.addEventListener('mousedown', onarticleCardClick);
 
   articleCard.addEventListener('keydown', function (evt) {
     if (evt.keyCode === window.KEYCODE_ESC) {

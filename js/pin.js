@@ -19,13 +19,12 @@
     return pinElement;
   };
 
-
   var doActiveMap = function () {
     document.querySelector('.map').classList.remove('map--faded');
   };
 
   document.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === window.KEYCODE_ENTER) {
+    if (evt.target.classList.contains('map__pin--main') && evt.keyCode === window.KEYCODE_ENTER) {
       onPinClick();
     }
   });
@@ -55,7 +54,7 @@
     var fragment = document.createDocumentFragment();
     window.newPins = dataCard;
     var randomArray = window.shuffle(dataCard);
-    randomArray = randomArray.slice(0, 5);
+    randomArray = randomArray.slice(0, window.COUNT_PINS);
 
     for (var i = 0; i < window.COUNT_PINS; i++) {
 
