@@ -1,7 +1,5 @@
 'use strict';
 (function () {
-  var MIN_LENGTH_SYMBOLS = 30;
-  var MAX_LENGTH_SYMBOLS = 100;
 
   var typeHouse = document.querySelector('#type');
   var onTypeHouseChange = function () {
@@ -89,43 +87,6 @@
   onRoomChange();
   room.addEventListener('change', onRoomChange);
 
-  var onGuestsChange = function () {
-    for (var i = 0; i < room.options.length; i++) {
-      room.options[i].disabled = true;
-    }
-    if (guests.options.selectedIndex === 0) {
-      room.options.selectedIndex = 2;
-      for (i = 0; i < room.options.length; i++) {
-        if (room.options[i].text === '3 комнаты') {
-          room.options[i].disabled = false;
-        }
-      }
-    } else if (guests.options.selectedIndex === 1) {
-      room.options.selectedIndex = 2;
-      for (i = 0; i < room.options.length; i++) {
-        if ((room.options[i].text === '2 комнаты') || (room.options[i].text === '3 комнаты')) {
-          room.options[i].disabled = false;
-        }
-      }
-    } else if (guests.options.selectedIndex === 2) {
-      room.options.selectedIndex = 2;
-      for (i = 0; i < room.options.length; i++) {
-        if (room.options[i].text !== '100 комнат') {
-          room.options[i].disabled = false;
-        }
-      }
-    } else if (guests.options.selectedIndex === 3) {
-      room.options.selectedIndex = 3;
-      for (i = 0; i < room.options.length; i++) {
-        if (room.options[i].text === 'не для гостей') {
-          room.options[i].disabled = false;
-        }
-      }
-    }
-  };
-
-  guests.addEventListener('change', onGuestsChange);
-
   var form = document.querySelector('.ad-form');
 
   form.addEventListener('submit', function (evt) {
@@ -145,12 +106,12 @@
 
   };
 
-
   document.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === window.KEYCODE_ESC && evt.target.classList.contains('') && (document.querySelector('main').firstChild.classList.contains('success') || document.querySelector('main').firstChild.classList.contains('error'))) {
+    if (evt.keyCode === window.KEYCODE_ESC && !evt.target.classList.contains('popup__close') && (document.querySelector('main').firstChild.classList.contains('success') || document.querySelector('main').firstChild.classList.contains('error'))) {
       document.querySelector('main').removeChild(document.querySelector('main').firstChild);
     }
   });
+
 
   window.doNotActiveMap = function () {
     document.querySelector('.map').classList.add('map--faded');
@@ -160,25 +121,25 @@
     for (var i = 0; i < allFieldset.length; i++) {
       allFieldset[i].disabled = true;
     }
-    document.querySelector('.ad-form').reset();
-    var pins = document.querySelectorAll('.map__pin');
 
-    for (var j = 1; j < pins.length; j++) {
-      document.querySelector('.map__pins').removeChild(pins[j]);
+    var allFormSelect = document.querySelectorAll('.map__filter');
+    for (var j = 0; j < allFormSelect.length; j++) {
+      allFormSelect[j].disabled = true;
+    }
+    document.querySelector('.ad-form').reset();
+    document.querySelector('.map__filters').reset();
+
+    document.querySelector('.ad-form-header').disabled = true;
+    document.querySelector('.map__features').disabled = true;
+
+    document.querySelector('.map').removeChild(document.querySelector('.map__card'));
+
+    var pins = document.querySelectorAll('.map__pin');
+    for (var k = 1; k < pins.length; k++) {
+      document.querySelector('.map__pins').removeChild(pins[k]);
     }
     window.isPinned = false;
   };
-
-
-  var title = document.querySelector('#title');
-  title.addEventListener('input', function () {
-
-    if (title.value.length < MIN_LENGTH_SYMBOLS || title.value.length > MAX_LENGTH_SYMBOLS) {
-      title.setCustomValidity('Заголовок объявления должен содержать от 30 до 100 символов');
-    } else {
-      title.setCustomValidity('');
-    }
-  });
 }
 
 )();

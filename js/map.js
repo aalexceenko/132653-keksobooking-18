@@ -10,12 +10,13 @@
   var windowWidth = window.innerWidth;
   var overlayWidth = document.querySelector('.map__overlay').offsetWidth;
   var deltaWidth = (windowWidth - overlayWidth) / 2;
-
   var mainPinElementHalf = mainPinElement.offsetWidth / 2;
 
   var loadNewPins = function () {
     if (window.isPinned === false) {
       window.load(window.successHandler, window.errorHandler);
+      document.querySelector('.ad-form').querySelector('#address').value = Math.round(mainPinElement.offsetLeft + mainPinElementHalf) + ', ' + (mainPinElement.offsetTop + mainPinElement.offsetHeight);
+
     }
     window.isPinned = true;
   };

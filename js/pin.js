@@ -32,18 +32,27 @@
 
   var pin = document.querySelector('.map__pin--main');
 
-  var formActive = function () {
+  var doFormActive = function () {
     var formDelete = document.querySelector('.ad-form');
     formDelete.classList.remove('ad-form--disabled');
+
+    document.querySelector('.ad-form-header').disabled = false;
 
     var allFieldset = document.querySelectorAll('.ad-form__element');
     for (var i = 0; i < allFieldset.length; i++) {
       allFieldset[i].disabled = false;
     }
+
+    var allFormSelect = document.querySelectorAll('.map__filter');
+    for (var j = 0; j < allFormSelect.length; j++) {
+      allFormSelect[j].disabled = false;
+    }
+
+    document.querySelector('.map__features').disabled = false;
   };
 
   var onPinClick = function () {
-    formActive();
+    doFormActive();
     doActiveMap();
   };
 
@@ -53,12 +62,12 @@
     var mapPinsElement = document.querySelector('.map__pins');
     var fragment = document.createDocumentFragment();
     window.newPins = dataCard;
-    var randomArray = window.shuffle(dataCard);
-    randomArray = randomArray.slice(0, window.COUNT_PINS);
+    var randomArrays = window.shuffle(dataCard);
+    randomArrays = randomArrays.slice(0, window.COUNT_PINS);
 
     for (var i = 0; i < window.COUNT_PINS; i++) {
 
-      fragment.appendChild(window.createPinElement(randomArray[i]));
+      fragment.appendChild(window.createPinElement(randomArrays[i]));
 
       if (i === 0) {
         document.querySelector('.map').insertBefore(window.createMapCardPopupElement(dataCard[i]), document.querySelector('.map__filters-container'));

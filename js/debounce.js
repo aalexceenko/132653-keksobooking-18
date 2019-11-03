@@ -6,12 +6,15 @@
 
   var lastTimeout;
 
-  function debounce(last) {
+  var debounce = function (cb) {
     if (lastTimeout) {
       clearTimeout(lastTimeout);
     }
-    lastTimeout = setTimeout(last, DEBOUNCE_INTERVAL);
-  }
+    var parameters = arguments;
+    lastTimeout = window.setTimeout(function () {
+      cb.apply(null, parameters);
+    }, DEBOUNCE_INTERVAL);
+  };
 
   window.debounce = debounce;
 })();

@@ -72,6 +72,11 @@
     var buttonPins = evt.target.parentElement;
     if (buttonPins.classList.contains('map__pin') && !buttonPins.classList.contains('map__pin--main')) {
       updateMapCardPopup(evt.target.card);
+
+      window.Card = document.querySelector('.map__card');
+      window.Card.addEventListener('mousedown', onArticleCardClick);
+      window.Card.addEventListener('keydown', onArticleCardClickKeyDown);
+
     }
   };
 
@@ -83,20 +88,20 @@
     }
   });
 
-  var articleCard = document.querySelector('.map');
-  var onarticleCardClick = function (evt) {
+  var onArticleCardClick = function (evt) {
     var button = evt.target;
     if (button.classList.contains('popup__close')) {
       var cardElement = button.parentNode;
       cardElement.classList.add('hidden');
+      window.Card.removeEventListener('mousedown', onArticleCardClick);
     }
   };
-  articleCard.addEventListener('mousedown', onarticleCardClick);
 
-  articleCard.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === window.KEYCODE_ESC) {
+  var onArticleCardClickKeyDown = function (evt) {
+    if ((evt.keyCode === window.KEYCODE_ESC || evt.keyCode === window.KEYCODE_ENTER) && evt.target.classList.contains('popup__close')) {
       document.querySelector('.map__card').classList.add('hidden');
+      window.Card.removeEventListener('keydown', onArticleCardClickKeyDown);
     }
-  });
+  };
 
 })();

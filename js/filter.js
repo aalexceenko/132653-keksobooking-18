@@ -84,13 +84,13 @@
     filteredPins = filteredPins.filter(filterHouseType).filter(filterRooms).filter(filterGuests).filter(filterFeatures);
 
     deletePin();
-    var MAX_COUNT_PINS = 5;
+    var maxCountLength = 5;
     if (filteredPins.length < window.COUNT_PINS) {
-      MAX_COUNT_PINS = filteredPins.length;
+      maxCountLength = filteredPins.length;
     }
     filteredPins = window.shuffle(filteredPins);
 
-    for (var i = 0; i < MAX_COUNT_PINS; i++) {
+    for (var i = 0; i < maxCountLength; i++) {
 
       fragment.appendChild(window.createPinElement(filteredPins[i]));
 
