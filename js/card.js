@@ -73,9 +73,9 @@
     if (buttonPins.classList.contains('map__pin') && !buttonPins.classList.contains('map__pin--main')) {
       updateMapCardPopup(evt.target.card);
 
-      window.Card = document.querySelector('.map__card');
-      window.Card.addEventListener('mousedown', onArticleCardClick);
-      window.Card.addEventListener('keydown', onArticleCardClickKeyDown);
+      window.cardList = document.querySelector('.map__card');
+      window.cardList.addEventListener('mousedown', onArticleCardClick);
+      window.cardList.addEventListener('keydown', onArticleCardClickKeyDown);
 
     }
   };
@@ -88,19 +88,24 @@
     }
   });
 
+  var deleteEventListenerCardList = function () {
+    window.cardList.removeEventListener('mousedown', onArticleCardClick);
+    window.cardList.removeEventListener('keydown', onArticleCardClickKeyDown);
+  };
+
   var onArticleCardClick = function (evt) {
     var button = evt.target;
     if (button.classList.contains('popup__close')) {
       var cardElement = button.parentNode;
       cardElement.classList.add('hidden');
-      window.Card.removeEventListener('mousedown', onArticleCardClick);
+      deleteEventListenerCardList();
     }
   };
 
   var onArticleCardClickKeyDown = function (evt) {
     if ((evt.keyCode === window.KEYCODE_ESC || evt.keyCode === window.KEYCODE_ENTER) && evt.target.classList.contains('popup__close')) {
       document.querySelector('.map__card').classList.add('hidden');
-      window.Card.removeEventListener('keydown', onArticleCardClickKeyDown);
+      deleteEventListenerCardList();
     }
   };
 

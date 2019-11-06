@@ -11,6 +11,7 @@
   var overlayWidth = document.querySelector('.map__overlay').offsetWidth;
   var deltaWidth = (windowWidth - overlayWidth) / 2;
   var mainPinElementHalf = mainPinElement.offsetWidth / 2;
+  window.valueCoordinate = document.querySelector('.ad-form').querySelector('#address').value = Math.round(mainPinElement.offsetLeft + mainPinElementHalf) + ', ' + Math.round(mainPinElement.offsetTop + mainPinElementHalf);
 
   var loadNewPins = function () {
     if (window.isPinned === false) {
